@@ -1,0 +1,27 @@
+Resources:
+  ElasticBeanstalkApplication00elasticBeanstalk00JRlUd:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::ElasticBeanstalk::Application"
+    DeletionPolicy: "Retain"
+    Properties:
+      ResourceLifecycleConfig:
+        VersionLifecycleConfig:
+          MaxCountRule:
+            Enabled: false
+            DeleteSourceFromS3: false
+            MaxCount: 200
+          MaxAgeRule:
+            MaxAgeInDays: 180
+            Enabled: false
+            DeleteSourceFromS3: false
+      ApplicationName: "elasticBeanstalk"
+  ElasticBeanstalkApplicationVersion00elasticBeanstalk00LWzIk:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::ElasticBeanstalk::ApplicationVersion"
+    DeletionPolicy: "Retain"
+    Properties:
+      ApplicationName:
+        Ref: "ElasticBeanstalkApplication00elasticBeanstalk00JRlUd"
+      SourceBundle:
+        S3Bucket: "elasticbeanstalk-eu-north-1-211125671700"
+        S3Key: "1714905283249-nodejs.zip"
