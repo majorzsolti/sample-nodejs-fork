@@ -1,0 +1,77 @@
+{
+    "pipeline": {
+        "name": "DeployNodeJsApplication",
+        "roleArn": "arn:aws:iam::211125671700:role/service-role/AWSCodePipelineServiceRole-eu-north-1-DeployNodeJsApplication",
+        "artifactStore": {
+            "type": "S3",
+            "location": "codepipeline-eu-north-1-107886998537"
+        },
+        "stages": [
+            {
+                "name": "Source",
+                "actions": [
+                    {
+                        "name": "Source",
+                        "actionTypeId": {
+                            "category": "Source",
+                            "owner": "AWS",
+                            "provider": "CodeStarSourceConnection",
+                            "version": "1"
+                        },
+                        "runOrder": 1,
+                        "configuration": {
+                            "BranchName": "main",
+                            "ConnectionArn": "arn:aws:codestar-connections:eu-north-1:211125671700:connection/ef4e9c28-ec04-447c-b481-233738ef37f1",
+                            "DetectChanges": "true",
+                            "FullRepositoryId": "majorzsolti/sample-nodejs-fork",
+                            "OutputArtifactFormat": "CODE_ZIP"
+                        },
+                        "outputArtifacts": [
+                            {
+                                "name": "SourceArtifact"
+                            }
+                        ],
+                        "inputArtifacts": [],
+                        "region": "eu-north-1",
+                        "namespace": "SourceVariables"
+                    }
+                ]
+            },
+            {
+                "name": "Deploy",
+                "actions": [
+                    {
+                        "name": "Deploy",
+                        "actionTypeId": {
+                            "category": "Deploy",
+                            "owner": "AWS",
+                            "provider": "ElasticBeanstalk",
+                            "version": "1"
+                        },
+                        "runOrder": 1,
+                        "configuration": {
+                            "ApplicationName": "elasticBeanstalk",
+                            "EnvironmentName": "ElasticBeanstalk-env"
+                        },
+                        "outputArtifacts": [],
+                        "inputArtifacts": [
+                            {
+                                "name": "SourceArtifact"
+                            }
+                        ],
+                        "region": "eu-north-1",
+                        "namespace": "DeployVariables"
+                    }
+                ]
+            }
+        ],
+        "version": 1,
+        "executionMode": "QUEUED",
+        "pipelineType": "V2"
+    },
+    "metadata": {
+        "pipelineArn": "arn:aws:codepipeline:eu-north-1:211125671700:DeployNodeJsApplication",
+        "created": "2024-05-05T13:03:46.643000+00:00",
+        "updated": "2024-05-05T13:03:46.643000+00:00"
+    }
+}
